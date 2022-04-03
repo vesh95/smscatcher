@@ -1,5 +1,8 @@
 up:
 	@docker-compose up -d
 
-resatrt:
+restart:
 	@docker-compose restart
+
+exec:
+	@docker-compose exec app sh
