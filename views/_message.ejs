@@ -1,9 +1,15 @@
-<tr>
+<tr id="message-<%= message.id %>">
     <td><%= message.id %></td>
     <td><%= message.to %></td>
     <td><%= message.message %></td>
-    <td><%= message.date %></td>
+    <td><%= (new Date(message.date)).toLocaleString('ru-RU') %></td>
     <td>
-        <button class="btn remove" data-id="<%= message.id %>">Remove</button>
+        <button 
+            class="btn remove"
+            data-id="<%= message.id %>"
+            onclick="removeMessage(event)"
+        >
+            Remove
+        </button>
     </td>
 </tr>
