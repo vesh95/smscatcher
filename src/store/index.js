@@ -21,7 +21,18 @@ class Store {
     }
 
     delete(id) {
-        this.messages = this.messages.filter(message => message.id !== Number(message));
+        let deletedMess = null;
+        this.messages = this.messages.filter(message => {
+            if (message.id === Number(id)) {
+                deletedMess = message
+
+                return false;
+            }
+
+            return true;
+        });
+
+        return deletedMess;
     }
 }
 
