@@ -1,15 +1,11 @@
-const http = require('http');
+const express = require('express');
+const app = express();
+const apiRoutes = require('./src/api');
+app.use(express.static('public'));
 
-const server = http.createServer((req, res) => {
-    console.log(req.url);
+app.use(express.json())
+app.use(apiRoutes)
 
-    res.writeHead(200, {
-        'Content-Type': 'application/json',
-    })
-
-    res.end(JSON.stringify({'data': 'Hello'}))
-});
-
-server.listen(80, () => {
-    console.log(`Server running at 80 port`);
- })
+app.listen(80, () => {
+    console.log('Server started on 80 port');
+})
