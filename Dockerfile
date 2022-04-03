@@ -6,6 +6,4 @@ WORKDIR /app
 
 RUN [ "npm", "install" ]
 
-EXPOSE 80 6001
-
 CMD npm run start

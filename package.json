@@ -21,7 +21,6 @@
   },
   "homepage": "https://github.com/vesh95/smscatcher#readme",
   "dependencies": {
-    "express": "^4.17.3",
-    "sqlite": "^4.0.25"
+    "express": "^4.17.3"
   }
 }
