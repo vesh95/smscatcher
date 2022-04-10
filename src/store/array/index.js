@@ -4,35 +4,53 @@ class Store {
         this.ai = 1
     }
 
-    all() {
-        return this.messages;
+    async all() {
+        return new Promise(resolve => {
+            resolve(this.messages);
+        });
     }
 
-    find(id) {
-        return this.messages.find(message => message.id === Number(id))
+    async find(id) {
+        return new Promise((resolve, reject) => {
+            const message = this.messages.find(message => message.id === Number(id))
+            if (!message) {
+                reject('NotFound')
+            }
+
+            resolve(message)
+        })
     }
 
-    insert(to, message, date) {
+    async insert(to, message, date) {
         const data = {id: this.ai, to, message, date}
         this.ai++;
-        this.messages.push(data)
 
-        return data
+        return new Promise(resolve => {
+            this.messages.push(data)
+            resolve(data)
+        })
     }
 
     delete(id) {
-        let deletedMess = null;
-        this.messages = this.messages.filter(message => {
-            if (message.id === Number(id)) {
-                deletedMess = message
+        return new Promise((resolve, reject) => {
+            let deletedMess = null;
 
-                return false;
+            this.messages = this.messages.filter(message => {
+                if (message.id === Number(id)) {
+                    deletedMess = message
+    
+                    return false;
+                }
+    
+                return true;
+            });
+
+            if (deletedMess === null) { 
+                reject('NotFound')
             }
 
-            return true;
-        });
-
-        return deletedMess;
+            resolve(deletedMess)
+        })
     }
 }
 

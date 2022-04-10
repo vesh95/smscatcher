@@ -1,5 +1,4 @@
 const router = require('express').Router();
-const res = require('express/lib/response');
 
 module.exports = function(config) {
     const { store } = config
@@ -8,20 +7,16 @@ module.exports = function(config) {
      * GET /api/message
      */
     router.get('/api/message', (req, res) => {
-        res.json(store.all());
+        store.all().then(data => res.json(data))
     })
 
     /**
      * GET /api/message/{id}
      */
     router.get('/api/message/:id', (req, res) => {
-        const result = store.find(req.params.id);
-        if (!result) {
-            res.status(404)
-            res.send()
-        }
-
-        res.json(result)
+        store.find(req.params.id)
+            .then(data => res.json(data))
+            .catch(() => res.status(404).send())
     })
 
     /**
@@ -35,19 +30,17 @@ module.exports = function(config) {
             res.send()
         }
 
-        const result = store.insert(to, message, (new Date()).getTime())
-        res.json(result)
+        store.insert(to, message, (new Date()).getTime())
+            .then(result => res.json(result))  
     })
 
     /**
      * DELETE /api/message/{id}
      */
     router.delete('/api/message/:id', (req, res) => {
-        const result = store.delete(req.params.id);
-
-        if(result === null) res.status(404)
-
-        res.json(result);
+        store.delete(req.params.id)
+            .then(result => res.json(result))
+            .catch(() => res.status(404).send())
     })
 
     return router
