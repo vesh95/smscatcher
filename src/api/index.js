@@ -14,16 +14,27 @@ router.get('/api/message', (req, res) => {
  */
 router.get('/api/message/:id', (req, res) => {
     const result = store.find(req.params.id);
-    res.json(result);
+    if (!result) {
+        res.status(404)
+        res.send()
+    }
+
+    res.json(result)
 })
 
 /**
  * POST /api/message
  */
 router.post('/api/message', (req, res) => {
-    const reqBody = req.body;
-    const result = store.insert(reqBody.to, reqBody.message, (new Date()).getTime())
-    res.json(result);
+    const { to, message } = req.body;
+
+    if (to === undefined || message === undefined) {
+        res.status(400)
+        res.send()
+    }
+
+    const result = store.insert(to, message, (new Date()).getTime())
+    res.json(result)
 })
 
 /**
