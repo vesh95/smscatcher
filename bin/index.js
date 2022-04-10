@@ -1,17 +1,9 @@
-const path = require('path');
-const express = require('express');
-const app = express();
-const apiRoutes = require('../src/api');
-const pageRoute = require('../src/pages');
+const environment = process.env.ENVIRONMENT || 'development'
+const config = require('../src/configs/' + environment)
+const makeApp = require('../src/application')
 
-app.set('title', 'SMSCatcher')
-app.set('view engine', 'ejs')
-app.set('views', path.join(__dirname, '../src/views'))
-app.use(express.static(path.join(__dirname, '/../public')))
-app.use(express.json())
-app.use(apiRoutes)
-app.use(pageRoute)
+const app = makeApp(config)
 
-app.listen(80, () => {
-    console.log('Server started on 80 port');
+app.listen(80, function() {
+    console.log('App listen on port 80');
 })

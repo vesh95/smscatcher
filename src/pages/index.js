@@ -1,11 +1,13 @@
-const store = require('../store');
-
 const router = require('express').Router();
 
-router.get('/', (req, res) => {
-    res.render('index', {
-        data: store.all()
-    })
-})
+module.exports = function(config) {
+    const { store } = config
 
-module.exports = router;
+    router.get('/', (req, res) => {
+        res.render('index', {
+            data: store.all()
+        })
+    })
+
+    return router
+}

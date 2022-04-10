@@ -1,51 +1,54 @@
 const router = require('express').Router();
 const res = require('express/lib/response');
-const store = require('../store');
 
-/**
- * GET /api/message
- */
-router.get('/api/message', (req, res) => {
-    res.json(store.all());
-})
+module.exports = function(config) {
+    const { store } = config
 
-/**
- * GET /api/message/{id}
- */
-router.get('/api/message/:id', (req, res) => {
-    const result = store.find(req.params.id);
-    if (!result) {
-        res.status(404)
-        res.send()
-    }
+    /**
+     * GET /api/message
+     */
+    router.get('/api/message', (req, res) => {
+        res.json(store.all());
+    })
 
-    res.json(result)
-})
+    /**
+     * GET /api/message/{id}
+     */
+    router.get('/api/message/:id', (req, res) => {
+        const result = store.find(req.params.id);
+        if (!result) {
+            res.status(404)
+            res.send()
+        }
 
-/**
- * POST /api/message
- */
-router.post('/api/message', (req, res) => {
-    const { to, message } = req.body;
+        res.json(result)
+    })
 
-    if (to === undefined || message === undefined) {
-        res.status(400)
-        res.send()
-    }
+    /**
+     * POST /api/message
+     */
+    router.post('/api/message', (req, res) => {
+        const { to, message } = req.body;
 
-    const result = store.insert(to, message, (new Date()).getTime())
-    res.json(result)
-})
+        if (to === undefined || message === undefined) {
+            res.status(400)
+            res.send()
+        }
 
-/**
- * DELETE /api/message/{id}
- */
-router.delete('/api/message/:id', (req, res) => {
-    const result = store.delete(req.params.id);
+        const result = store.insert(to, message, (new Date()).getTime())
+        res.json(result)
+    })
 
-    if(result === null) res.status(404)
+    /**
+     * DELETE /api/message/{id}
+     */
+    router.delete('/api/message/:id', (req, res) => {
+        const result = store.delete(req.params.id);
 
-    res.json(result);
-})
+        if(result === null) res.status(404)
 
-module.exports = router;
+        res.json(result);
+    })
+
+    return router
+}
