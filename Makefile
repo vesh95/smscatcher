@@ -1,11 +1,11 @@
 up:
-	@docker-compose up -d
+	@docker-compose -f docker-compose.dev.yml up -d
 
 restart:
-	@docker-compose restart
+	@docker-compose -f docker-compose.dev.yml restart
 
 exec:
-	@docker-compose exec app sh
+	@docker-compose -f docker-compose.dev.yml exec app sh
 
 down:
-	@docker-compose down
+	@docker-compose -f docker-compose.dev.yml down

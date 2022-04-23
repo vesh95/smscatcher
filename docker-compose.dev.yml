@@ -5,6 +5,7 @@ services:
     build:
       dockerfile: Dockerfile
       context: .
-    command: node ./src/server.js
     ports:
       - 80:80
+    volumes:
+      - ./:/app
