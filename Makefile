@@ -9,3 +9,11 @@ exec:
 
 down:
 	@docker-compose -f docker-compose.dev.yml down
+
+release: publish-npm build
+
+build:
+	@./build.sh
+
+publish-npm:
+	@npm publish
