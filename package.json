@@ -2,10 +2,9 @@
   "name": "smscatcher",
   "version": "1.1.0",
   "description": "",
-  "main": "./bin/index.js",
+  "main": "./src/server.js",
   "scripts": {
-    "start": "node ./bin/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ./src/server.js"
   },
   "repository": {
     "type": "git",

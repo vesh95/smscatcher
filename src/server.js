@@ -1,6 +1,6 @@
 const environment = process.env.ENVIRONMENT || 'development'
 const config = require('../src/configs/' + environment)
-const makeApp = require('../src/application')
+const makeApp = require('./application')
 
 const app = makeApp(config)
 
