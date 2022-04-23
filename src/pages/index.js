@@ -4,9 +4,13 @@ module.exports = function(config) {
     const { store } = config
 
     router.get('/', (req, res) => {
-        res.render('index', {
-            data: store.all()
-        })
+        store.all()
+            .then((messages) => {
+                res.render('index', {
+                    data: messages
+                })
+            })
+        
     })
 
     return router
