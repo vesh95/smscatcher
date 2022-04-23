@@ -1,40 +1,47 @@
 const router = require('express').Router();
-const res = require('express/lib/response');
-const store = require('../store');
 
-/**
- * GET /api/message
- */
-router.get('/api/message', (req, res) => {
-    res.json(store.all());
-})
+module.exports = function(config) {
+    const { store } = config
 
-/**
- * GET /api/message/{id}
- */
-router.get('/api/message/:id', (req, res) => {
-    const result = store.find(req.params.id);
-    res.json(result);
-})
+    /**
+     * GET /api/message
+     */
+    router.get('/api/message', (req, res) => {
+        store.all().then(data => res.json(data))
+    })
 
-/**
- * POST /api/message
- */
-router.post('/api/message', (req, res) => {
-    const reqBody = req.body;
-    const result = store.insert(reqBody.to, reqBody.message, (new Date()).getTime())
-    res.json(result);
-})
+    /**
+     * GET /api/message/{id}
+     */
+    router.get('/api/message/:id', (req, res) => {
+        store.find(req.params.id)
+            .then(data => res.json(data))
+            .catch(() => res.status(404).send())
+    })
 
-/**
- * DELETE /api/message/{id}
- */
-router.delete('/api/message/:id', (req, res) => {
-    const result = store.delete(req.params.id);
+    /**
+     * POST /api/message
+     */
+    router.post('/api/message', (req, res) => {
+        const { to, message } = req.body;
 
-    if(result === null) res.status(404)
+        if (to === undefined || message === undefined) {
+            res.status(400)
+            res.send()
+        }
 
-    res.json(result);
-})
+        store.insert(to, message, (new Date()).getTime())
+            .then(result => res.json(result))  
+    })
 
-module.exports = router;
+    /**
+     * DELETE /api/message/{id}
+     */
+    router.delete('/api/message/:id', (req, res) => {
+        store.delete(req.params.id)
+            .then(result => res.json(result))
+            .catch(() => res.status(404).send())
+    })
+
+    return router
+}
